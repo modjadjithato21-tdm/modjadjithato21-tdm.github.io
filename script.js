@@ -132,12 +132,10 @@ if (contactForm) {
       to_name: "Thato Modjadji",
     };
 
-    // Using your actual Service ID and Template ID
     emailjs.send("service_gg2w6gp", "template_ti7vg6m", templateParams)
       .then(function(response) {
         showToast("✓ Message sent successfully! I'll reply within 24h.", 4000);
         contactForm.reset();
-        // Optional: log to local display
         const logDiv = document.getElementById("contact-log");
         const entry = document.createElement("div");
         entry.style.background = "#0e1a24";
@@ -209,8 +207,11 @@ function closeModal() {
 }
 window.onclick = function(e) {
   const modal = document.getElementById('imageModal');
+  const adminModal = document.getElementById('adminModal');
   if (e.target === modal) closeModal();
+  if (e.target === adminModal) closeAdminModal();
 };
+
 function escapeHtml(str) {
   return str.replace(/[&<>]/g, function(m) {
     if (m === '&') return '&amp;';
@@ -259,4 +260,108 @@ if (showContactBtn) {
     if (!commentSec.classList.contains('hidden-section')) commentSec.classList.add('hidden-section');
     contactSec.scrollIntoView({ behavior: 'smooth' });
   });
+}
+
+// ===================== DYNAMIC ITEM ADDER (ADMIN PANEL) =====================
+const openAdminBtn = document.getElementById("openAdminBtn");
+const adminModal = document.getElementById("adminModal");
+const adminForm = document.getElementById("admin-form");
+
+if (openAdminBtn) {
+  openAdminBtn.addEventListener("click", () => {
+    adminModal.style.display = "flex";
+  });
+}
+
+function closeAdminModal() {
+  adminModal.style.display = "none";
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadCustomItems();
+});
+
+if (adminForm) {
+  adminForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const category = document.getElementById("item-category").value;
+    const title = document.getElementById("item-title").value.trim();
+    const desc = document.getElementById("item-desc").value.trim();
+    const link = document.getElementById("item-link").value.trim();
+
+    const newItem = { category, title, desc, link, id: Date.now() };
+
+    let customItems = JSON.parse(localStorage.getItem("custom_portfolio_items") || "[]");
+    customItems.push(newItem);
+    localStorage.setItem("custom_portfolio_items", JSON.stringify(customItems));
+
+    renderItem(newItem);
+    showToast("✓ Item added successfully!", 3000);
+    adminForm.reset();
+    closeAdminModal();
+  });
+}
+
+function loadCustomItems() {
+  const customItems = JSON.parse(localStorage.getItem("custom_portfolio_items") || "[]");
+  customItems.forEach(item => renderItem(item));
+}
+
+function renderItem(item) {
+  if (item.category === "achievement") {
+    const grid = document.querySelector("#achievements .grid-2");
+    if (grid) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3><i class="fas fa-trophy"></i> ${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.desc)}</p>
+        ${item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" class="download-link"><i class="fas fa-external-link-alt"></i> View Link</a>` : ''}
+      `;
+      grid.appendChild(card);
+    }
+  } else if (item.category === "project") {
+    const grid = document.querySelector("#projects .grid-2");
+    if (grid) {
+      const card = document.createElement("div");
+      card.className = "card";
+      let tagsHtml = '';
+      if (item.desc) {
+        tagsHtml = `<div class="tech-stack">` + item.desc.split(',').map(t => `<span>${escapeHtml(t.trim())}</span>`).join('') + `</div>`;
+      }
+      card.innerHTML = `
+        <h3><i class="fas fa-laptop-code"></i> ${escapeHtml(item.title)}</h3>
+        <p>Custom added project.</p>
+        ${tagsHtml}
+        ${item.link ? `<div class="project-links"><a href="${escapeHtml(item.link)}" class="project-link" target="_blank"><i class="fas fa-globe"></i> Live Demo</a></div>` : ''}
+      `;
+      grid.appendChild(card);
+    }
+  } else if (item.category === "skill") {
+    const techCard = document.querySelector("#skills .grid-2 .card:nth-child(2) div");
+    if (techCard) {
+      const tag = document.createElement("span");
+      tag.className = "skill-tag";
+      tag.textContent = item.title;
+      techCard.appendChild(tag);
+    }
+  } else if (item.category === "certificate") {
+    const grid = document.querySelector("#certificates .grid-3");
+    if (grid) {
+      const card = document.createElement("div");
+      card.className = "card certificate-card";
+      card.innerHTML = `
+        <img src="${escapeHtml(item.link || 'images/Umalusi.jpg')}" alt="${escapeHtml(item.title)}" class="cert-img" onclick="openModal(this.src, '${escapeHtml(item.title)}')">
+        <p style="margin-top: 10px; font-weight: 600;">${escapeHtml(item.title)}</p>
+      `;
+      grid.appendChild(card);
+    }
+  }
+}
+
+function clearCustomData() {
+  if (confirm("Are you sure you want to clear all custom added items?")) {
+    localStorage.removeItem("custom_portfolio_items");
+    location.reload();
+  }
 }
