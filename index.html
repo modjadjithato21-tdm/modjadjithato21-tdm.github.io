@@ -76,7 +76,7 @@
 
   <section id="achievements">
     <div class="section-title"><i class="fas fa-trophy"></i> <span>Achievements & Recognition</span></div>
-    <div class="grid-2">
+    <div class="grid-2" id="achievements-container">
       <div class="card">
         <h3><i class="fas fa-scroll"></i> Academic Transcript</h3>
         <p>Top quartile performance in Business Systems analysis & software engineering modules.</p>
@@ -97,7 +97,7 @@
 
   <section id="projects">
     <div class="section-title"><i class="fas fa-laptop-code"></i> <span>Featured Projects</span></div>
-    <div class="grid-2">
+    <div class="grid-2" id="projects-container">
       <div class="card" data-project="lumina">
         <h3><i class="fas fa-calendar-alt"></i> Lumina Events Website</h3>
         <p>Responsive event management and showcase website with dynamic booking interface, MySQL backend, and real‑time availability updates.</p>
@@ -153,18 +153,18 @@
     <div class="grid-2">
       <div class="card">
         <h3><i class="fas fa-users"></i> Soft Skills</h3>
-        <div><span class="skill-tag">Team Collaboration</span> <span class="skill-tag">Business Analysis</span> <span class="skill-tag">Agile Methodologies</span> <span class="skill-tag">Communication</span> <span class="skill-tag">Critical Thinking</span></div>
+        <div id="soft-skills-container"><span class="skill-tag">Team Collaboration</span> <span class="skill-tag">Business Analysis</span> <span class="skill-tag">Agile Methodologies</span> <span class="skill-tag">Communication</span> <span class="skill-tag">Critical Thinking</span></div>
       </div>
       <div class="card">
         <h3><i class="fas fa-microchip"></i> Technical Stack</h3>
-        <div><span class="skill-tag">Java (OOP)</span> <span class="skill-tag">JavaScript/ES6</span> <span class="skill-tag">HTML5/CSS3</span> <span class="skill-tag">React (basic)</span> <span class="skill-tag">Node.js</span> <span class="skill-tag">MySQL</span> <span class="skill-tag">MS365 Suite</span> <span class="skill-tag">Git/GitHub</span></div>
+        <div id="tech-skills-container"><span class="skill-tag">Java (OOP)</span> <span class="skill-tag">JavaScript/ES6</span> <span class="skill-tag">HTML5/CSS3</span> <span class="skill-tag">React (basic)</span> <span class="skill-tag">Node.js</span> <span class="skill-tag">MySQL</span> <span class="skill-tag">MS365 Suite</span> <span class="skill-tag">Git/GitHub</span></div>
       </div>
     </div>
   </section>
 
   <section id="certificates">
     <div class="section-title"><i class="fas fa-certificate"></i> <span>Certifications</span></div>
-    <div class="grid-3">
+    <div class="grid-3" id="certificates-container">
       <div class="card certificate-card">
         <img src="images/Umalusi.jpg" alt="Umalusi Certificate" class="cert-img" onclick="openModal(this.src, 'Umalusi Certificate')" onerror="this.src='https://placehold.co/300x200/1a2a3a/00ffaa?text=Umalusi'">
         <a href="images/Umalusi.jpg" download class="download-link"><i class="fas fa-download"></i> Download Certificate</a>
@@ -230,7 +230,7 @@
   <a id="modalDownloadBtn" class="modal-download" download>Download Image</a>
 </div>
 
-<!-- Admin Add Item Modal -->
+<!-- Admin Add Item Modal with Image Uploader -->
 <div id="adminModal" class="modal" style="display: none;">
   <div class="modal-content" style="background: #0c141e; padding: 2rem; width: 90%; max-width: 500px; border: 2px solid #00ffaa; border-radius: 24px; position: relative; display: flex; flex-direction: column; align-items: stretch;">
     <span class="close-modal" onclick="closeAdminModal()" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: white;">&times;</span>
@@ -253,12 +253,17 @@
       </div>
 
       <div>
-        <label style="font-size: 0.85rem; color: #a5c3e0; display: block; margin-bottom: 0.3rem;">Description / Tech Stack (comma separated for skills/projects):</label>
+        <label style="font-size: 0.85rem; color: #a5c3e0; display: block; margin-bottom: 0.3rem;">Description / Tech Stack:</label>
         <textarea id="item-desc" rows="3" placeholder="Brief description or tech stack (e.g. React, Node.js)"></textarea>
       </div>
 
       <div>
-        <label style="font-size: 0.85rem; color: #a5c3e0; display: block; margin-bottom: 0.3rem;">Link / Image URL (optional):</label>
+        <label style="font-size: 0.85rem; color: #a5c3e0; display: block; margin-bottom: 0.3rem;">Upload Image File (Optional):</label>
+        <input type="file" id="item-image-file" accept="image/*" style="background: #0f1722; border: 1px solid #2a3a4a; border-radius: 12px; padding: 8px; width: 100%; color: white; cursor: pointer;">
+      </div>
+
+      <div>
+        <label style="font-size: 0.85rem; color: #a5c3e0; display: block; margin-bottom: 0.3rem;">Or Link / Image URL (optional):</label>
         <input type="text" id="item-link" placeholder="https://... or images/cert.jpg">
       </div>
 
