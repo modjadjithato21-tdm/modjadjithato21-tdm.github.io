@@ -31,7 +31,9 @@
 <nav class="navbar">
   <div class="nav-container">
     <div class="logo"><i class="fas fa-code-branch"></i> TModjadji.dev</div>
-    <div style="display: flex; align-items: center; gap: 1rem;">
+    <div style="display: flex; align-items: center; gap: 0.8rem;">
+      <!-- Admin Button to Add Items -->
+      <button id="openAdminBtn" class="theme-toggle" title="Add Portfolio Item" style="background: rgba(0,255,136,0.15); color: #00ffaa; border: 1px solid rgba(0,255,136,0.3); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-plus"></i></button>
       <button id="themeToggle" class="theme-toggle" aria-label="Dark/Light mode"><i class="fas fa-moon"></i></button>
       <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
     </div>
@@ -97,21 +99,21 @@
     <div class="section-title"><i class="fas fa-laptop-code"></i> <span>Featured Projects</span></div>
     <div class="grid-2">
       <div class="card" data-project="lumina">
-  <h3><i class="fas fa-calendar-alt"></i> Lumina Events Website</h3>
-  <p>Responsive event management and showcase website with dynamic booking interface, MySQL backend, and real‑time availability updates.</p>
-  <div class="tech-stack">
-    <span>JavaScript</span><span>MySQL</span><span>HTML5</span><span>CSS3</span>
-  </div>
-  <div class="project-links">
-    <a href="https://lumina-events.netlify.app" class="project-link" data-project-id="lumina_netlify" target="_blank">
-      <i class="fas fa-globe"></i> Netlify (Public)
-    </a>
-    <a href="https://lumina-events.netlify.app" class="project-link" data-project-id="lumina_live" target="_blank">
-      <i class="fas fa-external-link-alt"></i> Live Site
-    </a>
-  </div>
-  <div class="visit-counter">👁️ Visits: <span class="counter-value">0</span></div>
-</div>
+        <h3><i class="fas fa-calendar-alt"></i> Lumina Events Website</h3>
+        <p>Responsive event management and showcase website with dynamic booking interface, MySQL backend, and real‑time availability updates.</p>
+        <div class="tech-stack">
+          <span>JavaScript</span><span>MySQL</span><span>HTML5</span><span>CSS3</span>
+        </div>
+        <div class="project-links">
+          <a href="https://lumina-events.netlify.app" class="project-link" data-project-id="lumina_netlify" target="_blank">
+            <i class="fas fa-globe"></i> Netlify (Public)
+          </a>
+          <a href="https://lumina-events.netlify.app" class="project-link" data-project-id="lumina_live" target="_blank">
+            <i class="fas fa-external-link-alt"></i> Live Site
+          </a>
+        </div>
+        <div class="visit-counter">👁️ Visits: <span class="counter-value">0</span></div>
+      </div>
       <div class="card" data-project="dashboard">
         <h3><i class="fas fa-globe">🌟</i> Portfolio & Analytics Dashboard</h3>
         <p>Responsive web dashboard visualizing business metrics and personal projects with Chart.js & vanilla JS.</p>
@@ -122,18 +124,18 @@
         <div class="visit-counter">👁️ Visits: <span class="counter-value">0</span></div>
       </div>
       <div class="card" data-project="ontrack">
-  <h3><i class="fas fa-hand-holding-heart"></i> On Track Youth</h3>
-  <p>Inspirational website for young people – featuring motivational content, goal‑tracking tools, and a personal blog section. Built with care for my little sister and her peers.</p>
-  <div class="tech-stack">
-    <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Responsive Design</span>
-  </div>
-  <div class="project-links">
-    <a href="https://on-track-youth.netlify.app" class="project-link" data-project-id="ontrack_site" target="_blank">
-      <i class="fas fa-globe"></i> Visit Website
-    </a>
-  </div>
-  <div class="visit-counter">👁️ Visits: <span class="counter-value">0</span></div>
-</div>
+        <h3><i class="fas fa-hand-holding-heart"></i> On Track Youth</h3>
+        <p>Inspirational website for young people – featuring motivational content, goal‑tracking tools, and a personal blog section. Built with care for my little sister and her peers.</p>
+        <div class="tech-stack">
+          <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Responsive Design</span>
+        </div>
+        <div class="project-links">
+          <a href="https://on-track-youth.netlify.app" class="project-link" data-project-id="ontrack_site" target="_blank">
+            <i class="fas fa-globe"></i> Visit Website
+          </a>
+        </div>
+        <div class="visit-counter">👁️ Visits: <span class="counter-value">0</span></div>
+      </div>
     </div>
   </section>
 
@@ -212,7 +214,6 @@
 <footer>
   <div class="social-icons">
     <a href="https://linkedin.com/in/thatom" target="_blank"><i class="fab fa-linkedin"></i></a>
-    <!-- ✅ Updated GitHub link -->
     <a href="https://github.com/modjadjithato21-tdm" target="_blank"><i class="fab fa-github"></i></a>
     <a href="https://instagram.com/thatomodjadji" target="_blank"><i class="fab fa-instagram"></i></a>
     <a href="https://youtube.com/@thatotech" target="_blank"><i class="fab fa-youtube"></i></a>
@@ -222,10 +223,51 @@
 </footer>
 
 <div id="toast" class="toast hidden">✓ Message sent successfully!</div>
+
 <div id="imageModal" class="modal">
   <span class="close-modal" onclick="closeModal()">&times;</span>
   <img class="modal-content" id="modalImg">
   <a id="modalDownloadBtn" class="modal-download" download>Download Image</a>
+</div>
+
+<!-- Admin Add Item Modal -->
+<div id="adminModal" class="modal" style="display: none;">
+  <div class="modal-content" style="background: #0c141e; padding: 2rem; width: 90%; max-width: 500px; border: 2px solid #00ffaa; border-radius: 24px; position: relative; display: flex; flex-direction: column; align-items: stretch;">
+    <span class="close-modal" onclick="closeAdminModal()" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: white;">&times;</span>
+    <h2 style="margin-bottom: 1.2rem; color: #00ffaa; display: flex; align-items: center; gap: 10px;"><i class="fas fa-plus-circle"></i> Add New Item</h2>
+    
+    <form id="admin-form" style="display: flex; flex-direction: column; gap: 1rem;">
+      <div>
+        <label style="font-size: 0.85rem; color: #a5c3e0; display: block; margin-bottom: 0.3rem;">Category:</label>
+        <select id="item-category" required style="background: #0f1722; border: 1px solid #2a3a4a; border-radius: 12px; padding: 10px; width: 100%; color: white;">
+          <option value="achievement">Achievement</option>
+          <option value="project">Featured Project</option>
+          <option value="skill">Core Competency (Skill)</option>
+          <option value="certificate">Certificate</option>
+        </select>
+      </div>
+
+      <div>
+        <label style="font-size: 0.85rem; color: #a5c3e0; display: block; margin-bottom: 0.3rem;">Title / Name:</label>
+        <input type="text" id="item-title" placeholder="e.g. Advanced Cloud Certificate or New App" required>
+      </div>
+
+      <div>
+        <label style="font-size: 0.85rem; color: #a5c3e0; display: block; margin-bottom: 0.3rem;">Description / Tech Stack (comma separated for skills/projects):</label>
+        <textarea id="item-desc" rows="3" placeholder="Brief description or tech stack (e.g. React, Node.js)"></textarea>
+      </div>
+
+      <div>
+        <label style="font-size: 0.85rem; color: #a5c3e0; display: block; margin-bottom: 0.3rem;">Link / Image URL (optional):</label>
+        <input type="text" id="item-link" placeholder="https://... or images/cert.jpg">
+      </div>
+
+      <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+        <button type="submit" style="flex: 1; background: #00ffaa; color: #03100c; border: none; padding: 10px; border-radius: 30px; font-weight: bold; cursor: pointer;">Save & Add</button>
+        <button type="button" onclick="clearCustomData()" style="background: transparent; color: #ff5555; border: 1px solid #ff5555; padding: 10px 15px; border-radius: 30px; font-weight: bold; cursor: pointer;">Reset Custom</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- EmailJS Library -->
