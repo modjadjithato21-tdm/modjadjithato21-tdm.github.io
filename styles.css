@@ -410,7 +410,7 @@ footer {
 .hidden-section {
   display: none;
 }
-input, textarea {
+input, textarea, select {
   background: #0f1722;
   border: 1px solid #2a3a4a;
   border-radius: 14px;
@@ -439,9 +439,7 @@ button[type="submit"] {
   border-radius: 14px;
 }
 
-/* ===== NEW ADDITIONS FOR UPGRADES ===== */
-
-/* Typing animation */
+/* ===== TYPING ANIMATION ===== */
 .typing-container {
   font-size: 1.4rem;
   margin: 1rem 0 0.5rem;
@@ -468,132 +466,4 @@ button[type="submit"] {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-}
-
-/* Dark/Light Mode Variables */
-:root {
-  --bg-primary: #050b14;
-  --bg-secondary: rgba(12, 20, 30, 0.55);
-  --card-bg: rgba(20, 30, 42, 0.75);
-  --text-primary: #eef5ff;
-  --text-secondary: #cbdbe6;
-  --border-glow: rgba(0, 255, 170, 0.15);
-}
-[data-theme="light"] {
-  --bg-primary: #f4f7fc;
-  --bg-secondary: rgba(235, 245, 255, 0.85);
-  --card-bg: rgba(255, 255, 255, 0.9);
-  --text-primary: #111827;
-  --text-secondary: #1f2937;
-  --border-glow: rgba(0, 100, 80, 0.2);
-}
-body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-}
-body::after {
-  background: var(--bg-primary);
-  opacity: 0.95;
-}
-section {
-  background: var(--bg-secondary);
-  border-color: var(--border-glow);
-}
-.card {
-  background: var(--card-bg);
-  color: var(--text-primary);
-}
-.skill-tag, .tech-stack span {
-  background: rgba(0, 255, 136, 0.2);
-}
-.theme-toggle {
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  cursor: pointer;
-  color: #00ffaa;
-  padding: 0.3rem 0.6rem;
-  border-radius: 30px;
-  transition: 0.2s;
-}
-.theme-toggle:hover {
-  background: rgba(0,255,136,0.2);
-}
-
-/* Visit counter */
-.visit-counter {
-  margin-top: 1rem;
-  font-size: 0.8rem;
-  color: #aaa;
-  border-top: 1px dashed #00ffaa40;
-  padding-top: 0.6rem;
-  display: inline-block;
-  width: 100%;
-}
-
-/* GitHub stats */
-#github-repo-count {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #00ffaa;
-  margin: 0.5rem 0;
-}
-
-/* Toast notification */
-.toast {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: #00ffaa;
-  color: #05100c;
-  padding: 12px 24px;
-  border-radius: 40px;
-  font-weight: 600;
-  z-index: 1200;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: opacity 0.3s, transform 0.2s;
-}
-.toast.hidden {
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background: rgba(5,15,24,0.97);
-    padding: 1.2rem;
-    border-radius: 28px;
-    margin-top: 0.8rem;
-    gap: 1rem;
-  }
-  .nav-links.show {
-    display: flex;
-  }
-  .menu-toggle {
-    display: block;
-  }
-  .hero {
-    flex-direction: column-reverse;
-    text-align: center;
-  }
-  .hero-actions {
-    justify-content: center;
-  }
-  .profile-img {
-    width: 180px;
-    height: 180px;
-  }
-  section {
-    margin: 2rem 1rem;
-    padding: 1.5rem;
-  }
-  .typing-container {
-    justify-content: center;
-    font-size: 1.2rem;
-  }
 }
