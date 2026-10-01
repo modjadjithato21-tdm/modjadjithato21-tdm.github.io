@@ -288,17 +288,38 @@ if (adminForm) {
     const title = document.getElementById("item-title").value.trim();
     const desc = document.getElementById("item-desc").value.trim();
     const link = document.getElementById("item-link").value.trim();
+    const imageFileInput = document.getElementById("item-image-file");
 
-    const newItem = { category, title, desc, link, id: Date.now() };
+    const saveNewItem = (imageSource) => {
+      const newItem = { 
+        category, 
+        title, 
+        desc, 
+        link: link || imageSource, 
+        image: imageSource, 
+        id: Date.now() 
+      };
 
-    let customItems = JSON.parse(localStorage.getItem("custom_portfolio_items") || "[]");
-    customItems.push(newItem);
-    localStorage.setItem("custom_portfolio_items", JSON.stringify(customItems));
+      let customItems = JSON.parse(localStorage.getItem("custom_portfolio_items") || "[]");
+      customItems.push(newItem);
+      localStorage.setItem("custom_portfolio_items", JSON.stringify(customItems));
 
-    renderItem(newItem);
-    showToast("✓ Item added successfully!", 3000);
-    adminForm.reset();
-    closeAdminModal();
+      renderItem(newItem);
+      showToast("✓ Item added successfully!", 3000);
+      adminForm.reset();
+      closeAdminModal();
+    };
+
+    // Check if user uploaded an image file
+    if (imageFileInput && imageFileInput.files && imageFileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        saveNewItem(event.target.result);
+      };
+      reader.readAsDataURL(imageFileInput.files[0]);
+    } else {
+      saveNewItem(link);
+    }
   });
 }
 
@@ -313,10 +334,15 @@ function renderItem(item) {
     if (grid) {
       const card = document.createElement("div");
       card.className = "card";
+      let imgHtml = '';
+      if (item.image) {
+        imgHtml = `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" style="width: 60px; border-radius: 12px; margin-top: 10px; cursor: pointer;" onclick="openModal(this.src, '${escapeHtml(item.title)}')">`;
+      }
       card.innerHTML = `
         <h3><i class="fas fa-trophy"></i> ${escapeHtml(item.title)}</h3>
         <p>${escapeHtml(item.desc)}</p>
-        ${item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" class="download-link"><i class="fas fa-external-link-alt"></i> View Link</a>` : ''}
+        ${imgHtml}
+        ${item.link && !item.image ? `<a href="${escapeHtml(item.link)}" target="_blank" class="download-link"><i class="fas fa-external-link-alt"></i> View Link</a>` : ''}
       `;
       grid.appendChild(card);
     }
@@ -329,11 +355,16 @@ function renderItem(item) {
       if (item.desc) {
         tagsHtml = `<div class="tech-stack">` + item.desc.split(',').map(t => `<span>${escapeHtml(t.trim())}</span>`).join('') + `</div>`;
       }
+      let imgHtml = '';
+      if (item.image) {
+        imgHtml = `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" style="width: 100%; max-height: 150px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; cursor: pointer;" onclick="openModal(this.src, '${escapeHtml(item.title)}')">`;
+      }
       card.innerHTML = `
+        ${imgHtml}
         <h3><i class="fas fa-laptop-code"></i> ${escapeHtml(item.title)}</h3>
-        <p>Custom added project.</p>
+        <p>${item.image && !item.desc ? 'Custom added project.' : escapeHtml(item.desc || '')}</p>
         ${tagsHtml}
-        ${item.link ? `<div class="project-links"><a href="${escapeHtml(item.link)}" class="project-link" target="_blank"><i class="fas fa-globe"></i> Live Demo</a></div>` : ''}
+        ${item.link && !item.image ? `<div class="project-links"><a href="${escapeHtml(item.link)}" class="project-link" target="_blank"><i class="fas fa-globe"></i> Live Demo</a></div>` : ''}
       `;
       grid.appendChild(card);
     }
@@ -350,9 +381,10 @@ function renderItem(item) {
     if (grid) {
       const card = document.createElement("div");
       card.className = "card certificate-card";
+      const imgSrc = item.image || item.link || 'images/Umalusi.jpg';
       card.innerHTML = `
-        <img src="${escapeHtml(item.link || 'images/Umalusi.jpg')}" alt="${escapeHtml(item.title)}" class="cert-img" onclick="openModal(this.src, '${escapeHtml(item.title)}')">
-        <p style="margin-top: 10px; font-weight: 600;">${escapeHtml(item.title)}</p>
+        <img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(item.title)}" class="cert-img" onclick="openModal(this.src, '${escapeHtml(item.title)}')">
+        <a href="${escapeHtml(imgSrc)}" download class="download-link" style="margin-top: 10px;"><i class="fas fa-download"></i> Download Certificate</a>
       `;
       grid.appendChild(card);
     }
